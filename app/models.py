@@ -27,4 +27,4 @@ class ResultadoQuiz(models.Model):
     data_teste = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.eleitor.nome} - {self.classe_social_resultado}"
+        return f"{self.eleitor.nome} - {self.c}"
