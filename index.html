@@ -71,6 +71,7 @@
     }
     .opcao-btn:hover { background: linear-gradient(90deg, #6c5ce7, #fd79a8); }
     
+    /* ESTILOS DO RESULTADO */
     #resultado-box {
       background: #f8efba;
       border: 3px dashed #f5cd79;
@@ -119,7 +120,7 @@
   </section>
 
   <script>
-    
+    // --- PERGUNTAS DO QUIZ CHÁ REVELAÇÃO ---
     const perguntas = [
       {
         titulo: "1. Você abre o iFood e vê que a entrega está R$ 12,90.",
@@ -286,38 +287,32 @@
       carregarPergunta();
     }
 
-    // consumir api da camara
-  async function carregarDeputados() {
-  const grid = document.getElementById("deputados-grid");
-  
-  try {
-    const res = await fetch('http://127.0.0.1:8000/api/deputados-camara/?uf=PB');
-    const data = await res.json();
-    
-    // Suporta resposta como array direto ou objeto { dados: [...] }
-    const lista = Array.isArray(data) ? data : (data.dados || []);
-
-    if (lista.length === 0) {
-      grid.innerHTML = "<p>Nenhum deputado retornado.</p>";
-      return;
+    // --- CONSUMIR API DA CÂMARA ---
+    async function carregarDeputados() {
+      const grid = document.getElementById("deputados-grid");
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/deputados-camara/?uf=PB');
+        const data = await res.json();
+        
+        grid.innerHTML = "";
+        data.dados.forEach(dep => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${dep.urlFoto}" alt="${dep.nome}">
+            <h4>${dep.nome}</h4>
+            <p>${dep.siglaPartido} - ${dep.siglaUf}</p>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        grid.innerHTML = "<p>Ligue o servidor Django (`python manage.py runserver`) para carregar a lista de deputados.</p>";
+      }
     }
 
-    grid.innerHTML = "";
-    lista.forEach(dep => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${dep.urlFoto}" alt="${dep.nome}">
-        <h4>${dep.nome}</h4>
-        <p>${dep.siglaPartido || 'S/P'} - ${dep.siglaUf || 'PB'}</p>
-      `;
-      grid.appendChild(card);
-    });
-  } catch (err) {
-    console.error(err);
-    grid.innerHTML = "<p>Erro ao conectar com a API. Certifique-se de que o Django está rodando em 127.0.0.1:8000.</p>";
-  }
-}
+    // Iniciar na abertura
+    carregarPergunta();
+    carregarDeputados();
   </script>
 </body>
 </html>
