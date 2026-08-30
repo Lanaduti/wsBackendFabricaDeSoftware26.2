@@ -3,6 +3,7 @@ import requests
 from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import generics
 
 from .models import Eleitor, DeputadoFavorito, ResultadoQuiz
 from .serializers import (
@@ -63,3 +64,8 @@ class CamaraDeputadosView(APIView):
             return Response({'error': 'Erro ao buscar dados da Câmara'}, status=response.status_code)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+class CriarEleitorView(generics.CreateAPIView):
+    queryset = Eleitor.objects.all()
+    serializer_class = EleitorSerializer
+    permission_classes = [permissions.AllowAny]
