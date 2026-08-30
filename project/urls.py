@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from app.views import EleitorViewSet, DeputadoFavoritoViewSet, ResultadoQuizViewSet
+from app.views import (
+    EleitorViewSet, 
+    DeputadoFavoritoViewSet, 
+    ResultadoQuizViewSet, 
+    CamaraDeputadosView
+)
 
 router = DefaultRouter()
 router.register(r'eleitores', EleitorViewSet, basename='eleitor')
@@ -25,10 +30,10 @@ router.register(r'favoritos', DeputadoFavoritoViewSet, basename='favorito')
 router.register(r'quiz-resultados', ResultadoQuizViewSet, basename='quiz-resultado')
 
 urlpatterns = [
+    
     path('admin/', admin.site.urls),
+    
     path('api/', include(router.urls)),
-]
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
+    
+    path('api/deputados-camara/', CamaraDeputadosView.as_view(), name='deputados-camara'),
 ]
