@@ -2,196 +2,578 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>VVCC - você votando certo e com consciência</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VVCC — Você Votando Certo e com Consciência</title>
+  
+  <!-- Tipografia Premium: Space Grotesk (Títulos) e Inter (Leitura) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --primary-navy: #0b1b3d;
+      --accent-green: #00a86b;
+      --accent-gold: #ffb703;
+      --bg-overlay: rgba(11, 27, 61, 0.88);
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; }
+
     body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      margin: 20px; 
-      background: linear-gradient(135deg, #e8dff5, #fce1e4, #daeaf6); 
-      color: #2d1b4e; 
+      font-family: 'Inter', sans-serif; 
+      margin: 0; 
+      padding: 0;
+      /* Fundo da População / Brasil com overlay suave */
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                  url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1600&auto=format&fit=crop') center/cover fixed no-repeat;
+      color: #fff;
+      min-height: 100vh;
     }
-    header {
-      text-align: center;
-      padding: 25px;
-      background: linear-gradient(90deg, #6c5ce7, #a29bfe, #fd79a8);
+
+    /* BARRA SUPERIOR E LOGIN */
+    .top-bar {
+      background: rgba(11, 27, 61, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-auth {
+      background: var(--accent-green);
       color: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.25);
-      margin-bottom: 25px;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
     }
-    h1 { margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; }
-    p.subtitulo { margin-top: 5px; font-size: 15px; opacity: 0.95; font-style: italic; }
-    h2 { color: #5f27cd; border-bottom: 3px solid #a29bfe; padding-bottom: 8px; margin-top: 0; }
+
+    .btn-auth:hover { background: #008f5a; }
+
+    /* HERO & BRANDING */
+    header.hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 24px;
+      border-radius: 50px;
+      margin-bottom: 15px;
+    }
+
+    .brand-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ffffff, var(--accent-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h1.main-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 10px 0;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
     section { 
-      background: rgba(255, 255, 255, 0.95); 
-      padding: 25px; 
-      margin-bottom: 25px; 
-      border-radius: 16px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
+      background: var(--card-bg); 
+      color: var(--text-dark);
+      padding: 35px; 
+      margin-bottom: 35px; 
+      border-radius: 20px; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-    .card { 
-      border: 2px solid #e8dff5; 
-      padding: 12px; 
-      border-radius: 12px; 
-      text-align: center; 
-      background: #fff;
-      transition: transform 0.2s, box-shadow 0.2s;
+
+    h2 { 
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary-navy); 
+      border-bottom: 3px solid var(--accent-green); 
+      padding-bottom: 12px; 
+      margin-top: 0; 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 14px rgba(108, 92, 231, 0.2);
-      border-color: #a29bfe;
-    }
-    .card img { width: 110px; height: 140px; object-fit: cover; border-radius: 8px; border: 2px solid #74b9ff; }
-    .card h4 { color: #341f97; margin: 10px 0 5px 0; font-size: 15px; }
-    .card p { color: #00cec9; font-weight: bold; margin: 0; font-size: 13px; }
-    button { 
-      background: linear-gradient(90deg, #6c5ce7, #fd79a8); 
-      color: white; 
-      border: none; 
-      padding: 12px 20px; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-weight: bold;
+
+    .section-intro {
       font-size: 15px;
-      transition: opacity 0.2s, transform 0.1s;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
-    button:hover { opacity: 0.9; transform: scale(1.02); }
+
+    /* FILTRO DE ESTADOS */
+    select.uf-select {
+      padding: 10px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      color: var(--primary-navy);
+      background: #f1f5f9;
+      border: 2px solid var(--primary-navy);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* CARDS DOS DEPUTADOS */
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
+      gap: 25px; 
+      margin-top: 20px;
+    }
+
+    .card { 
+      border: 1px solid #e2e8f0; 
+      padding: 20px; 
+      border-radius: 16px; 
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .card img { 
+      width: 100%; 
+      height: 240px; 
+      object-fit: cover; 
+      border-radius: 12px; 
+      margin-bottom: 12px;
+    }
+
+    .fav-btn {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .card h4 { 
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--primary-navy); 
+      margin: 5px 0; 
+      font-size: 19px; 
+    }
+
+    .partido-badge { 
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1; 
+      font-weight: 700; 
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px; 
+      margin-bottom: 10px;
+    }
+
+    .links-uteis {
+      font-size: 13px;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .links-uteis a {
+      color: var(--accent-green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .links-uteis a:hover { text-decoration: underline; }
+
+    /* COMENTÁRIOS NOS CARDS */
+    .comments-section {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .comments-list {
+      font-size: 12px;
+      color: #475569;
+      max-height: 80px;
+      overflow-y: auto;
+      margin-bottom: 8px;
+    }
+
+    .comment-input {
+      width: 100%;
+      padding: 8px;
+      font-size: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    /* MODAL DE AUTENTICAÇÃO */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      color: var(--text-dark);
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+    }
+
+    /* QUIZ DESCONTRAÍDO */
     .opcao-btn { 
       display: block; 
       width: 100%; 
       margin: 10px 0; 
       text-align: left; 
-      background: linear-gradient(90deg, #0984e3, #a29bfe); 
+      background: #f8fafc; 
+      border: 2px solid #e2e8f0;
       border-radius: 10px;
-      padding: 14px;
-      color: white;
+      padding: 14px 18px;
+      color: var(--text-dark);
       font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .opcao-btn:hover { background: linear-gradient(90deg, #6c5ce7, #fd79a8); }
-    
-    /* ESTILOS DO RESULTADO */
+
+    .opcao-btn:hover { 
+      border-color: var(--accent-green);
+      background: #f0fdf4;
+      transform: translateX(4px);
+    }
+
     #resultado-box {
-      background: #f8efba;
-      border: 3px dashed #f5cd79;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 15px;
+      background: #f0fdf4;
+      border: 2px dashed var(--accent-green);
+      padding: 25px;
+      border-radius: 16px;
       text-align: center;
     }
-    .titulo-resultado { color: #d63031; font-size: 24px; font-weight: bold; margin-bottom: 10px; }
-    .desc-resultado { font-size: 16px; line-height: 1.5; color: #2d3436; }
-    .footer-nota { margin-top: 15px; font-size: 13px; color: #636e72; font-style: italic; }
+
+    .titulo-resultado { 
+      color: #008f5a; 
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px; 
+      font-weight: 800; 
+      margin-bottom: 10px; 
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>VVCC</h1>
-    <p class="subtitulo">Você votando certo e com consciência</p>
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <span style="font-weight: 800; font-family: 'Space Grotesk'; font-size: 18px;">🗳️ VVCC</span>
+    <div class="user-panel" id="user-panel">
+      <button class="btn-auth" onclick="abrirModal()">Entrar / Cadastrar</button>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="brand-badge">
+      <span class="brand-logo">VVCC</span>
+    </div>
+    <h1 class="main-title">Você Votando Certo e com Consciência</h1>
+    <p class="hero-desc">
+      O voto informado transforma a sociedade. Acompanhe de perto a atuação dos deputados federais, conheça os recursos do gabinete e divirta-se entendendo o impacto do seu perfil social no dia a dia.
+    </p>
   </header>
 
-  <!-- SEÇÃO 1: JOGUINHO DE QUIZ -->
-  <section id="secao-quiz">
-    <h2>🍵 CHÁ REVELAÇÃO DA SUA CLASSE SOCIAL</h2>
-    <p style="font-size: 14px; color: #57606f;">Um teste 100% científico baseado em absolutamente nada. 👀</p>
-    
-    <div id="quiz-container">
-      <p id="pergunta-titulo" style="font-weight: bold; font-size: 18px; color: #341f97;">Carregando pergunta...</p>
-      <div id="opcoes-container"></div>
-    </div>
-
-    <div id="resultado-container" style="display: none;">
-      <div id="resultado-box">
-        <div class="titulo-resultado" id="resultado-titulo"></div>
-        <div class="desc-resultado" id="resultado-desc"></div>
-        <p class="footer-nota">Parabéns! Você descobriu sua classe social. Agora volte para a realidade e continue estudando. 📚</p>
+  <main>
+    <!-- POR QUE CONHECER SEUS DEPUTADOS? -->
+    <section>
+      <h2>🏛️ Por que conhecer os parlamentares e seus gabinetes?</h2>
+      <p class="section-intro">
+        Os deputados federais propõem e votam leis que afetam diretamente o Brasil, além de fiscalizarem os gastos do Governo Federal. Conhecer a presença, os gastos da cota parlamentar e as propostas do gabinete do seu representante é essencial para garantir um voto consciente nas próximas eleições.
+      </p>
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+        <a href="https://www.camara.leg.br/" target="_blank" style="color: var(--accent-green); font-weight: 700; text-decoration: none;"> Portal Oficial da Câmara dos Deputados ↗</a>
+        <a href="https://www.tse.jus.br/" target="_blank" style="color: var(--accent-green); font-weight: 700; text-decoration: none;"> Tribunal Superior Eleitoral (TSE) ↗</a>
       </div>
-      <br>
-      <button onclick="reiniciarQuiz()">Refazer Teste</button>
-    </div>
-  </section>
+    </section>
 
-  <!-- SEÇÃO 2: DEPUTADOS DA PARAÍBA -->
-  <section>
-    <h2>🏛️ Deputados Federais da Paraíba</h2>
-    <div id="deputados-grid" class="grid">Carregando deputados da API...</div>
-  </section>
+    <!-- SEÇÃO QUIZ COM EXPLICAÇÃO DA DESCONTRAÇÃO -->
+    <section id="secao-quiz">
+      <h2>🍵 Chá Revelação da Sua Classe Social</h2>
+      <p class="section-intro">
+        <strong>Pausa para descontrair!</strong> Este quiz é um jogo leve e bem-humorado criado apenas para nos divertirmos com as situações típicas do cotidiano brasileiro e lembrar como as decisões políticas impactam as nossas finanças. 😉
+      </p>
+
+      <div id="quiz-container">
+        <p id="pergunta-titulo" style="font-weight: 700; font-size: 18px; color: var(--primary-navy);">Carregando pergunta...</p>
+        <div id="opcoes-container"></div>
+      </div>
+
+      <div id="resultado-container" style="display: none;">
+        <div id="resultado-box">
+          <div class="titulo-resultado" id="resultado-titulo"></div>
+          <div class="desc-resultado" id="resultado-desc" style="font-size: 16px; line-height: 1.5; color: var(--text-dark);"></div>
+          <p style="margin-top: 15px; font-size: 13px; color: var(--text-muted); font-style: italic;">
+            Este resultado é apenas uma brincadeira. Agora que você já rindo um pouco, vamos voltar a acompanhar os nossos deputados! 📚
+          </p>
+        </div>
+        <br>
+        <button style="background: var(--primary-navy); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700;" onclick="reiniciarQuiz()">Refazer Teste</button>
+      </div>
+    </section>
+
+    <!-- LISTA DE DEPUTADOS -->
+    <section>
+      <h2>
+        <span>👥 Deputados Federais por Estado</span>
+        <select id="uf-select" class="uf-select" onchange="trocarEstado(this.value)">
+          <option value="PB" selected>Paraíba (PB)</option>
+          <option value="PE">Pernambuco (PE)</option>
+          <option value="AL">Alagoas (AL)</option>
+          <option value="BA">Bahia (BA)</option>
+          <option value="CE">Ceará (CE)</option>
+          <option value="MA">Maranhão (MA)</option>
+          <option value="RN">Rio Grande do Norte (RN)</option>
+          <option value="SE">Sergipe (SE)</option>
+          <option value="SP">São Paulo (SP)</option>
+          <option value="RJ">Rio de Janeiro (RJ)</option>
+          <option value="MG">Minas Gerais (MG)</option>
+          <option value="RS">Rio Grande do Sul (RS)</option>
+        </select>
+      </h2>
+
+      <div id="deputados-grid" class="grid">Carregando parlamentares...</div>
+    </section>
+  </main>
+
+  <!-- MODAL DE AUTENTICAÇÃO -->
+  <div class="modal" id="auth-modal">
+    <div class="modal-content">
+      <h3 style="font-family: 'Space Grotesk'; margin-top:0;">Identificação do Eleitor</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">Conforme as diretrizes eleitorais, o cadastro é permitido para cidadãos com no mínimo 16 anos.</p>
+      
+      <input type="text" id="user-nome" placeholder="Seu Nome Completo">
+      <input type="date" id="user-nascimento" placeholder="Data de Nascimento">
+      
+      <button class="btn-auth" style="width: 100%; margin-top: 10px;" onclick="realizarLogin()">Entrar / Confirmar</button>
+      <button onclick="fecharModal()" style="width: 100%; background: none; border: none; color: var(--text-muted); margin-top: 8px; cursor: pointer;">Cancelar</button>
+    </div>
+  </div>
 
   <script>
-    // --- PERGUNTAS DO QUIZ CHÁ REVELAÇÃO ---
+    // AUTENTICAÇÃO E VERIFICAÇÃO DE IDADE (MÍNIMO 16 ANOS)
+    let eleitorLogado = null;
+
+    function abrirModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+    function fecharModal() { document.getElementById('auth-modal').style.display = 'none'; }
+
+    function realizarLogin() {
+      const nome = document.getElementById('user-nome').value;
+      const nascimento = document.getElementById('user-nascimento').value;
+
+      if (!nome || !nascimento) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+      }
+
+      const dataNasc = new Date(nascimento);
+      const hoje = new Date();
+      let idade = hoje.getFullYear() - dataNasc.getFullYear();
+      const m = hoje.getMonth() - dataNasc.getMonth();
+      if (m < 0 || (m === 0 && hoje.getDate() < dataNasc.getDate())) { idade--; }
+
+      if (idade < 16) {
+        alert("Acesso negado: É necessário ter no mínimo 16 anos para participar ativamente com cadastro na plataforma.");
+        return;
+      }
+
+      eleitorLogado = { nome, idade };
+      document.getElementById('user-panel').innerHTML = `<span style="font-size: 14px; font-weight:600;">👤 ${nome} (${idade} anos)</span>`;
+      fecharModal();
+    }
+
+    // INTERAÇÕES
+    function favoritar(id) {
+      if (!eleitorLogado) {
+        alert("Faça login para adicionar parlamentares aos seus favoritos.");
+        abrirModal();
+        return;
+      }
+      alert(`Deputado ${id} salvo com sucesso na sua lista de favoritos!`);
+    }
+
+    function adicionarComentario(e, id) {
+      if (e.key === 'Enter') {
+        if (!eleitorLogado) {
+          alert("Faça login para comentar na página do parlamentar.");
+          abrirModal();
+          return;
+        }
+        const texto = e.target.value;
+        if (!texto) return;
+        
+        const list = document.getElementById(`comments-${id}`);
+        const p = document.createElement('p');
+        p.style.margin = "4px 0";
+        p.innerHTML = `<strong>${eleitorLogado.nome}:</strong> ${texto}`;
+        list.appendChild(p);
+        e.target.value = '';
+      }
+    }
+
+    // BUSCA DE DEPUTADOS DA API
+    let ufAtual = 'PB';
+
+    async function buscarDeputados(uf) {
+      const grid = document.getElementById("deputados-grid");
+      grid.innerHTML = "<p>Buscando parlamentares na API oficial...</p>";
+
+      try {
+        let res = await fetch(`https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=${uf}&itens=12&ordem=ASC&ordenarPor=nome`);
+        let data = await res.json();
+        let lista = data.dados || [];
+
+        grid.innerHTML = "";
+        lista.forEach(dep => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <button class="fav-btn" title="Favoritar" onclick="favoritar(${dep.id})">⭐</button>
+            <div>
+              <img src="${dep.urlFoto}" alt="${dep.nome}" loading="lazy">
+              <h4>${dep.nome}</h4>
+              <span class="partido-badge">${dep.siglaPartido} - ${dep.siglaUf}</span>
+              
+              <div class="links-uteis">
+                <a href="https://www.camara.leg.br/deputados/${dep.id}" target="_blank">📋 Ver Despesas e Gabinete ↗</a>
+                <a href="https://www.camara.leg.br/deputados/${dep.id}/votacoes" target="_blank">🗳️ Histórico de Votações ↗</a>
+              </div>
+            </div>
+
+            <div class="comments-section">
+              <div class="comments-list" id="comments-${dep.id}">
+                <p style="margin:2px 0; color:#94a3b8;"><em>Nenhum comentário ainda.</em></p>
+              </div>
+              <input type="text" class="comment-input" placeholder="Escreva um comentário e pressione Enter..." onkeypress="adicionarComentario(event, ${dep.id})">
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        grid.innerHTML = "<p>Não foi possível obter os dados da API no momento.</p>";
+      }
+    }
+
+    function trocarEstado(uf) {
+      ufAtual = uf;
+      buscarDeputados(uf);
+    }
+
+    // QUIZ COMPLETO E DESCONTRAÍDO
     const perguntas = [
       {
-        titulo: "1. Você abre o iFood e vê que a entrega está R$ 12,90.",
+        titulo: "1. Você abre o aplicativo de entrega e vê a taxa de R$ 12,90.",
         opcoes: [
-          { texto: "A) 'Pode pedir.'", pontos: 1 },
-          { texto: "B) Procuro outro restaurante.", pontos: 2 },
-          { texto: "C) 'Vou buscar.'", pontos: 3 },
-          { texto: "D) 'Vou fazer um miojo.'", pontos: 4 }
+          { texto: "A) 'Tudo bem, pode pedir.'", pontos: 1 },
+          { texto: "B) Procuro outro restaurante com frete grátis.", pontos: 2 },
+          { texto: "C) 'Deixa quieto, vou buscar a pé.'", pontos: 3 },
+          { texto: "D) 'Vou fazer um miojo agora mesmo.'", pontos: 4 }
         ]
       },
       {
-        titulo: "2. Você recebeu R$ 50. Qual é a primeira coisa que pensa?",
+        titulo: "2. Você encontrou R$ 50 perdidos no bolso do casaco:",
         opcoes: [
-          { texto: "A) 'Dá para comprar alguma coisa legal.'", pontos: 1 },
-          { texto: "B) 'Vou guardar metade.'", pontos: 2 },
-          { texto: "C) 'Já sei onde vou gastar.'", pontos: 3 },
-          { texto: "D) 'Finalmente vou pagar aquele negócio.'", pontos: 4 }
+          { texto: "A) 'Ótimo, vou gastar hoje mesmo!'", pontos: 1 },
+          { texto: "B) 'Vou guardar para uma emergência.'", pontos: 2 },
+          { texto: "C) 'Ótimo, já paga o transporte da semana.'", pontos: 3 },
+          { texto: "D) 'Finalmente vou pagar a pessoa que me emprestou R$ 10.'", pontos: 4 }
         ]
       },
       {
-        titulo: "3. Seu celular está com 3% de bateria.",
+        titulo: "3. O grupo de amigos manda: 'Bora sair hoje?'",
         opcoes: [
-          { texto: "A) Tenho carregador portátil.", pontos: 1 },
-          { texto: "B) Procuro uma tomada.", pontos: 2 },
-          { texto: "C) Ativo economia de bateria.", pontos: 3 },
-          { texto: "D) 'Seja o que Deus quiser.'", pontos: 4 }
+          { texto: "A) 'Bora! Onde vamos?'", pontos: 1 },
+          { texto: "B) 'Quanto mais ou menos vai custar?'", pontos: 2 },
+          { texto: "C) 'Tem como ser num lugar baratinho?'", pontos: 3 },
+          { texto: "D) 'Infelizmente hoje não posso, estou completamente sem verba.'", pontos: 4 }
         ]
       },
       {
-        titulo: "4. Você entra no supermercado com fome.",
+        titulo: "4. Alguém sugere: 'Vamos pedir uma pizza?'",
         opcoes: [
-          { texto: "A) Coloco várias coisas no carrinho.", pontos: 1 },
-          { texto: "B) Pego algumas coisas que quero.", pontos: 2 },
-          { texto: "C) Vou direto na lista.", pontos: 3 },
-          { texto: "D) Só olho o preço e vou embora.", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "5. O amigo manda: 'Bora sair hoje?'",
-        opcoes: [
-          { texto: "A) 'Bora! Onde?'", pontos: 1 },
-          { texto: "B) 'Quanto vai gastar?'", pontos: 2 },
-          { texto: "C) 'Tem como ser um lugar barato?'", pontos: 3 },
-          { texto: "D) 'Hoje não posso, tô liso.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "6. Quando você vê uma promoção de 50% OFF:",
-        opcoes: [
-          { texto: "A) Compro imediatamente.", pontos: 1 },
-          { texto: "B) Comparo com outras lojas.", pontos: 2 },
-          { texto: "C) Só compro se realmente precisar.", pontos: 3 },
-          { texto: "D) 'Mesmo com 50%, ainda não tenho dinheiro.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "7. Alguém fala: 'Vamos pedir uma pizza?'",
-        opcoes: [
-          { texto: "A) 'Bora pedir duas!'", pontos: 1 },
-          { texto: "B) 'Qual sabor?'", pontos: 2 },
-          { texto: "C) 'Quanto fica para cada um?'", pontos: 3 },
-          { texto: "D) 'Gente, eu tenho pão em casa.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "8. A mãe/pai pergunta: 'Você quer alguma coisa do mercado?'",
-        opcoes: [
-          { texto: "A) 'Compra tudo que eu pedi no WhatsApp.'", pontos: 1 },
-          { texto: "B) 'Só umas três coisas.'", pontos: 2 },
-          { texto: "C) 'Se estiver barato, compra.'", pontos: 3 },
-          { texto: "D) 'Não precisa trazer nada.' 😭", pontos: 4 }
+          { texto: "A) 'Bora pedir duas logo!'", pontos: 1 },
+          { texto: "B) 'Qual o sabor e quanto dá pra cada?'", pontos: 2 },
+          { texto: "C) 'Se dividirmos em 5 pessoas, eu topo.'", pontos: 3 },
+          { texto: "D) 'Gente, tem pão com ovo em casa.' 🥖", pontos: 4 }
         ]
       }
     ];
@@ -202,81 +584,52 @@
     function carregarPergunta() {
       const q = perguntas[indicePergunta];
       document.getElementById("pergunta-titulo").innerText = q.titulo;
-      const opcoesDiv = document.getElementById("opcoes-container");
-      opcoesDiv.innerHTML = "";
+      const container = document.getElementById("opcoes-container");
+      container.innerHTML = "";
 
       q.opcoes.forEach(op => {
         const btn = document.createElement("button");
         btn.className = "opcao-btn";
         btn.innerText = op.texto;
-        btn.onclick = () => responder(op.pontos);
-        opcoesDiv.appendChild(btn);
+        btn.onclick = () => responderQuiz(op.pontos);
+        container.appendChild(btn);
       });
     }
 
-    function responder(pontos) {
+    function responderQuiz(pontos) {
       pontosTotais += pontos;
       indicePergunta++;
 
       if (indicePergunta < perguntas.length) {
         carregarPergunta();
       } else {
-        finalizarQuiz();
+        exibirResultadoQuiz();
       }
     }
 
-    function calcularResultado(pontos) {
-      if (pontos >= 8 && pontos <= 12) {
-        return {
-          titulo: "💎 HERDEIRO DO PIX",
-          desc: "Você não sabe quanto as coisas custam porque aparentemente alguém sempre paga por você. Seu maior problema financeiro é escolher entre crédito e débito."
-        };
-      } else if (pontos >= 13 && pontos <= 18) {
-        return {
-          titulo: "🥂 RICO, MAS DISCRETO",
-          desc: "Você tem dinheiro, mas gosta de fingir que não tem. Fala 'tá caro' enquanto compra sem olhar o preço."
-        };
-      } else if (pontos >= 19 && pontos <= 24) {
-        return {
-          titulo: "💳 CLT PREMIUM",
-          desc: "Você trabalha, recebe e imediatamente descobre que o dinheiro tinha outros planos. Salário: entrou. Salário: saiu."
-        };
-      } else if (pontos >= 25 && pontos <= 29) {
-        return {
-          titulo: "🛒 CLASSE MÉDIA GUERREIRA",
-          desc: "Você conhece promoção, parcelamento e o misterioso fenômeno chamado 'esse mês apertou'."
-        };
-      } else if (pontos >= 30 && pontos <= 31) {
-        return {
-          titulo: "🧮 CONTADOR DO ROLÊ",
-          desc: "Antes de aceitar qualquer convite, você já fez: preço do transporte + comida + bebida + volta = 'melhor ficar em casa'."
-        };
-      } else {
-        return {
-          titulo: "🥖 CEO DO 'TEM EM CASA'",
-          desc: "Você é uma pessoa econômica por necessidade e por talento. Alguém pergunta: 'Vamos pedir alguma coisa?' Você responde: 'Tem pão.'"
-        };
-      }
-    }
-
-    async function finalizarQuiz() {
-      const res = calcularResultado(pontosTotais);
-
+    function exibirResultadoQuiz() {
       document.getElementById("quiz-container").style.display = "none";
       document.getElementById("resultado-container").style.display = "block";
-      document.getElementById("resultado-titulo").innerText = res.titulo;
-      document.getElementById("resultado-desc").innerText = res.desc;
+      
+      let titulo = "";
+      let desc = "";
 
-      // Envia para o backend Django
-      try {
-        await fetch('http://127.0.0.1:8000/api/quiz-resultados/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ perfil_resultado: res.titulo })
-        });
-      } catch (err) {
-        console.log("Servidor local não conectado. Resultado apenas exibido na tela.");
+      if (pontosTotais <= 6) {
+        titulo = "💎 HERDEIRO DO PIX";
+        desc = "Você não sabe quanto as coisas custam porque o orçamento sempre dá conta. Seu maior dilema do dia é decidir se paga no débito ou no crédito.";
+      } else if (pontosTotais <= 10) {
+        titulo = "💳 CLT PREMIUM";
+        desc = "Você trabalha bastante e gosta de se dar mimos, mas quando a fatura do cartão chega, você descobre que o mês foi bem longo.";
+      } else if (pontosTotais <= 13) {
+        titulo = "🧮 CONTADOR DO ROLÊ";
+        desc = "Antes de aceitar qualquer convite, você faz a conta completa: transporte + comida + 10% do garçom. Se passar da meta, prefere ficar em casa.";
+      } else {
+        titulo = "🥖 CEO DO 'TEM EM CASA'";
+        desc = "Você é uma pessoa altamente estratégica. Quando alguém sugere pedir comida, você imediatamente lembra que tem comida pronta na geladeira.";
       }
+
+      document.getElementById("resultado-titulo").innerText = titulo;
+      document.getElementById("resultado-desc").innerText = desc;
     }
 
     function reiniciarQuiz() {
@@ -287,32 +640,9 @@
       carregarPergunta();
     }
 
-    // --- CONSUMIR API DA CÂMARA ---
-    async function carregarDeputados() {
-      const grid = document.getElementById("deputados-grid");
-      try {
-        const res = await fetch('http://127.0.0.1:8000/api/deputados-camara/?uf=PB');
-        const data = await res.json();
-        
-        grid.innerHTML = "";
-        data.dados.forEach(dep => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <img src="${dep.urlFoto}" alt="${dep.nome}">
-            <h4>${dep.nome}</h4>
-            <p>${dep.siglaPartido} - ${dep.siglaUf}</p>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        grid.innerHTML = "<p>Ligue o servidor Django (`python manage.py runserver`) para carregar a lista de deputados.</p>";
-      }
-    }
-
-    // Iniciar na abertura
+    // INICIALIZAÇÃO
     carregarPergunta();
-    carregarDeputados();
+    buscarDeputados(ufAtual);
   </script>
 </body>
 </html>
