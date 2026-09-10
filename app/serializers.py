@@ -6,7 +6,7 @@ class EleitorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Eleitor
-        fields = ['id', 'username', 'email', 'nome', 'data_nascimento', 'password']
+        fields = ['id', 'username', 'email', 'nome', 'apelido', 'data_nascimento', 'password']
 
     def create(self, validated_data):
         #create_user para garantir que a senha seja salva criptografada

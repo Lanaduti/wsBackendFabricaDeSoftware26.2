@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VVCC — Você Votando Certo e com Consciência</title>
-  
-  <!-- Tipografia Premium: Space Grotesk (Títulos) e Inter (Leitura) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
@@ -15,7 +13,7 @@
       --primary-navy: #0b1b3d;
       --accent-green: #00a86b;
       --accent-gold: #ffb703;
-      --bg-overlay: rgba(11, 27, 61, 0.88);
+      --bg-overlay: rgba(11, 27, 61, 0.92);
       --card-bg: rgba(255, 255, 255, 0.96);
       --text-dark: #1e293b;
       --text-muted: #64748b;
@@ -25,16 +23,112 @@
 
     body { 
       font-family: 'Inter', sans-serif; 
-      margin: 0; 
-      padding: 0;
-      /* Fundo da População / Brasil com overlay suave */
+      margin: 0; padding: 0;
       background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                   url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1600&auto=format&fit=crop') center/cover fixed no-repeat;
       color: #fff;
       min-height: 100vh;
     }
 
-    /* BARRA SUPERIOR E LOGIN */
+    /* ANIMACAO ESTILO NETFLIX (SPLASH SCREEN) */
+    #splash-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: var(--primary-navy);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeOut 0.8s ease-in-out 2.2s forwards;
+    }
+
+    .splash-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      background: linear-gradient(90deg, #ffffff, var(--accent-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: zoomIn 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+    }
+
+    .splash-sub {
+      color: #cbd5e1;
+      font-size: 16px;
+      margin-top: 10px;
+      opacity: 0;
+      animation: fadeIn 1s ease-in 0.8s forwards;
+    }
+
+    @keyframes zoomIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+
+    /* LAYOUT DA PAGINA DE ENTRADA / AUTH */
+    #auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      color: var(--text-dark);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .auth-header { text-align: center; margin-bottom: 25px; }
+    .auth-header h2 { color: var(--primary-navy); font-family: 'Space Grotesk', sans-serif; margin: 10px 0 5px; }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--text-dark); }
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-green);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #008f5a; }
+
+    .auth-toggle {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .auth-toggle a { color: var(--primary-navy); font-weight: 700; text-decoration: none; cursor: pointer; }
+
+    /* PAINEL PRINCIPAL (ESCONDIDO ATE LOGAR) */
+    #main-app { display: none; }
+
     .top-bar {
       background: rgba(11, 27, 61, 0.95);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -43,408 +137,173 @@
       justify-content: space-between;
       align-items: center;
       position: sticky;
-      top: 0;
-      z-index: 100;
+      top: 0; z-index: 100;
     }
 
-    .user-panel {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-auth {
-      background: var(--accent-green);
+    .btn-logout {
+      background: #ef4444;
       color: white;
       border: none;
       padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: background 0.2s;
     }
 
-    .btn-auth:hover { background: #008f5a; }
-
-    /* HERO & BRANDING */
-    header.hero {
-      text-align: center;
-      padding: 50px 20px 30px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .brand-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 10px 24px;
-      border-radius: 50px;
-      margin-bottom: 15px;
-    }
-
-    .brand-logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 800;
-      font-size: 32px;
-      letter-spacing: 2px;
-      background: linear-gradient(90deg, #ffffff, var(--accent-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    h1.main-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 40px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin: 10px 0;
-    }
-
-    .hero-desc {
-      font-size: 17px;
-      color: #cbd5e1;
-      line-height: 1.6;
-      margin-top: 15px;
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px 40px;
-    }
-
-    section { 
-      background: var(--card-bg); 
-      color: var(--text-dark);
-      padding: 35px; 
-      margin-bottom: 35px; 
-      border-radius: 20px; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
-    }
-
-    h2 { 
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--primary-navy); 
-      border-bottom: 3px solid var(--accent-green); 
-      padding-bottom: 12px; 
-      margin-top: 0; 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .section-intro {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    /* FILTRO DE ESTADOS */
-    select.uf-select {
-      padding: 10px 16px;
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      color: var(--primary-navy);
-      background: #f1f5f9;
-      border: 2px solid var(--primary-navy);
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    /* CARDS DOS DEPUTADOS */
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
-      gap: 25px; 
-      margin-top: 20px;
-    }
-
-    .card { 
-      border: 1px solid #e2e8f0; 
-      padding: 20px; 
-      border-radius: 16px; 
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
-
-    .card img { 
-      width: 100%; 
-      height: 240px; 
-      object-fit: cover; 
-      border-radius: 12px; 
-      margin-bottom: 12px;
-    }
-
-    .fav-btn {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      cursor: pointer;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-
-    .card h4 { 
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--primary-navy); 
-      margin: 5px 0; 
-      font-size: 19px; 
-    }
-
-    .partido-badge { 
-      display: inline-block;
-      background: #e0f2fe;
-      color: #0369a1; 
-      font-weight: 700; 
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px; 
-      margin-bottom: 10px;
-    }
-
-    .links-uteis {
-      font-size: 13px;
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .links-uteis a {
-      color: var(--accent-green);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .links-uteis a:hover { text-decoration: underline; }
-
-    /* COMENTÁRIOS NOS CARDS */
-    .comments-section {
-      margin-top: 15px;
-      padding-top: 12px;
-      border-top: 1px solid #f1f5f9;
-    }
-
-    .comments-list {
-      font-size: 12px;
-      color: #475569;
-      max-height: 80px;
-      overflow-y: auto;
-      margin-bottom: 8px;
-    }
-
-    .comment-input {
-      width: 100%;
-      padding: 8px;
-      font-size: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-    }
-
-    /* MODAL DE AUTENTICAÇÃO */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: white;
-      color: var(--text-dark);
-      padding: 30px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-    }
-
-    .modal-content input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-    }
-
-    /* QUIZ DESCONTRAÍDO */
-    .opcao-btn { 
-      display: block; 
-      width: 100%; 
-      margin: 10px 0; 
-      text-align: left; 
-      background: #f8fafc; 
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px 18px;
-      color: var(--text-dark);
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .opcao-btn:hover { 
-      border-color: var(--accent-green);
-      background: #f0fdf4;
-      transform: translateX(4px);
-    }
-
-    #resultado-box {
-      background: #f0fdf4;
-      border: 2px dashed var(--accent-green);
-      padding: 25px;
-      border-radius: 16px;
-      text-align: center;
-    }
-
-    .titulo-resultado { 
-      color: #008f5a; 
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 26px; 
-      font-weight: 800; 
-      margin-bottom: 10px; 
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 25px; }
+    .card { background: #fff; padding: 20px; border-radius: 16px; color: var(--text-dark); }
+    .card img { width: 100%; height: 240px; object-fit: cover; border-radius: 12px; }
   </style>
 </head>
 <body>
 
-  <!-- BARRA SUPERIOR -->
-  <div class="top-bar">
-    <span style="font-weight: 800; font-family: 'Space Grotesk'; font-size: 18px;">🗳️ VVCC</span>
-    <div class="user-panel" id="user-panel">
-      <button class="btn-auth" onclick="abrirModal()">Entrar / Cadastrar</button>
+  <!-- 1. SPLASH SCREEN (ANIMACAO INICIAL) -->
+  <div id="splash-screen">
+    <div class="splash-logo">VVCC</div>
+    <div class="splash-sub">Você Votando Certo e com Consciência</div>
+  </div>
+
+  <!-- 2. TELA DE AUTENTICACAO OBRIGATORIA (LOGIN / CADASTRO) -->
+  <div id="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span style="font-family:'Space Grotesk'; font-weight:800; font-size:28px; color:var(--primary-navy);">🗳️ VVCC</span>
+        <h2 id="form-title">Acesse sua Conta</h2>
+        <p style="font-size:13px; color:var(--text-muted);">Acompanhe a atuação dos parlamentares e fiscalize os gastos públicos.</p>
+      </div>
+
+      <!-- FORMULARIO DE LOGIN -->
+      <form id="login-form" onsubmit="efetuarLogin(event)">
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="login-email" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="login-senha" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-submit">Entrar no Sistema</button>
+        
+        <div class="auth-toggle">
+          <a onclick="esqueciSenha()">Esqueci minha senha</a><br><br>
+          Não possui uma conta? <a onclick="mostrarCadastro()">Cadastre-se</a>
+        </div>
+      </form>
+
+      <!-- FORMULARIO DE CADASTRO -->
+      <form id="register-form" style="display:none;" onsubmit="efetuarCadastro(event)">
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" id="reg-nome" required placeholder="Ex: Maria Silva">
+        </div>
+        <div class="form-group">
+          <label>Apelido (Como quer ser chamado)</label>
+          <input type="text" id="reg-apelido" placeholder="Ex: Mari">
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="reg-email" required placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Confirmar E-mail</label>
+          <input type="email" id="reg-email-conf" required placeholder="Repita o e-mail">
+        </div>
+        <div class="form-group">
+          <label>Data de Nascimento (Mínimo 16 anos)</label>
+          <input type="date" id="reg-nascimento" required>
+        </div>
+        <div class="form-group">
+          <label>Senha (Mín. 8 caracteres, 1 maiúscula e 1 símbolo)</label>
+          <input type="password" id="reg-senha" required placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>Confirmar Senha</label>
+          <input type="password" id="reg-senha-conf" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-submit">Criar Minha Conta</button>
+        
+        <div class="auth-toggle">
+          Já tem conta? <a onclick="mostrarLogin()">Fazer Login</a>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- HERO SECTION -->
-  <header class="hero">
-    <div class="brand-badge">
-      <span class="brand-logo">VVCC</span>
+  <!-- 3. PAINEL PRINCIPAL DO SITE (LIBERADO APOS LOGIN) -->
+  <div id="main-app">
+    <div class="top-bar">
+      <span style="font-weight: 800; font-family: 'Space Grotesk'; font-size: 18px;">🗳️ VVCC</span>
+      <div style="display:flex; align-items:center; gap:15px;">
+        <span id="user-display"></span>
+        <button class="btn-logout" onclick="efetuarLogout()">Sair</button>
+      </div>
     </div>
-    <h1 class="main-title">Você Votando Certo e com Consciência</h1>
-    <p class="hero-desc">
-      O voto informado transforma a sociedade. Acompanhe de perto a atuação dos deputados federais, conheça os recursos do gabinete e divirta-se entendendo o impacto do seu perfil social no dia a dia.
-    </p>
-  </header>
 
-  <main>
-    <!-- POR QUE CONHECER SEUS DEPUTADOS? -->
-    <section>
-      <h2>🏛️ Por que conhecer os parlamentares e seus gabinetes?</h2>
-      <p class="section-intro">
-        Os deputados federais propõem e votam leis que afetam diretamente o Brasil, além de fiscalizarem os gastos do Governo Federal. Conhecer a presença, os gastos da cota parlamentar e as propostas do gabinete do seu representante é essencial para garantir um voto consciente nas próximas eleições.
-      </p>
-      <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
-        <a href="https://www.camara.leg.br/" target="_blank" style="color: var(--accent-green); font-weight: 700; text-decoration: none;"> Portal Oficial da Câmara dos Deputados ↗</a>
-        <a href="https://www.tse.jus.br/" target="_blank" style="color: var(--accent-green); font-weight: 700; text-decoration: none;"> Tribunal Superior Eleitoral (TSE) ↗</a>
-      </div>
-    </section>
-
-    <!-- SEÇÃO QUIZ COM EXPLICAÇÃO DA DESCONTRAÇÃO -->
-    <section id="secao-quiz">
-      <h2>🍵 Chá Revelação da Sua Classe Social</h2>
-      <p class="section-intro">
-        <strong>Pausa para descontrair!</strong> Este quiz é um jogo leve e bem-humorado criado apenas para nos divertirmos com as situações típicas do cotidiano brasileiro e lembrar como as decisões políticas impactam as nossas finanças. 😉
-      </p>
-
-      <div id="quiz-container">
-        <p id="pergunta-titulo" style="font-weight: 700; font-size: 18px; color: var(--primary-navy);">Carregando pergunta...</p>
-        <div id="opcoes-container"></div>
-      </div>
-
-      <div id="resultado-container" style="display: none;">
-        <div id="resultado-box">
-          <div class="titulo-resultado" id="resultado-titulo"></div>
-          <div class="desc-resultado" id="resultado-desc" style="font-size: 16px; line-height: 1.5; color: var(--text-dark);"></div>
-          <p style="margin-top: 15px; font-size: 13px; color: var(--text-muted); font-style: italic;">
-            Este resultado é apenas uma brincadeira. Agora que você já rindo um pouco, vamos voltar a acompanhar os nossos deputados! 📚
-          </p>
-        </div>
-        <br>
-        <button style="background: var(--primary-navy); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 700;" onclick="reiniciarQuiz()">Refazer Teste</button>
-      </div>
-    </section>
-
-    <!-- LISTA DE DEPUTADOS -->
-    <section>
-      <h2>
-        <span>👥 Deputados Federais por Estado</span>
-        <select id="uf-select" class="uf-select" onchange="trocarEstado(this.value)">
-          <option value="PB" selected>Paraíba (PB)</option>
-          <option value="PE">Pernambuco (PE)</option>
-          <option value="AL">Alagoas (AL)</option>
-          <option value="BA">Bahia (BA)</option>
-          <option value="CE">Ceará (CE)</option>
-          <option value="MA">Maranhão (MA)</option>
-          <option value="RN">Rio Grande do Norte (RN)</option>
-          <option value="SE">Sergipe (SE)</option>
-          <option value="SP">São Paulo (SP)</option>
-          <option value="RJ">Rio de Janeiro (RJ)</option>
-          <option value="MG">Minas Gerais (MG)</option>
-          <option value="RS">Rio Grande do Sul (RS)</option>
-        </select>
-      </h2>
-
-      <div id="deputados-grid" class="grid">Carregando parlamentares...</div>
-    </section>
-  </main>
-
-  <!-- MODAL DE AUTENTICAÇÃO -->
-  <div class="modal" id="auth-modal">
-    <div class="modal-content">
-      <h3 style="font-family: 'Space Grotesk'; margin-top:0;">Identificação do Eleitor</h3>
-      <p style="font-size: 13px; color: var(--text-muted);">Conforme as diretrizes eleitorais, o cadastro é permitido para cidadãos com no mínimo 16 anos.</p>
-      
-      <input type="text" id="user-nome" placeholder="Seu Nome Completo">
-      <input type="date" id="user-nascimento" placeholder="Data de Nascimento">
-      
-      <button class="btn-auth" style="width: 100%; margin-top: 10px;" onclick="realizarLogin()">Entrar / Confirmar</button>
-      <button onclick="fecharModal()" style="width: 100%; background: none; border: none; color: var(--text-muted); margin-top: 8px; cursor: pointer;">Cancelar</button>
-    </div>
+    <main style="max-width:1200px; margin:0 auto; padding:30px 20px;">
+      <section style="background:var(--card-bg); color:var(--text-dark); padding:30px; border-radius:16px; margin-bottom:30px;">
+        <h2 style="font-family:'Space Grotesk'; color:var(--primary-navy);">🏛️ Deputados Federais por Estado</h2>
+        <div id="deputados-grid" class="grid">Carregando parlamentares...</div>
+      </section>
+    </main>
   </div>
 
   <script>
-    // AUTENTICAÇÃO E VERIFICAÇÃO DE IDADE (MÍNIMO 16 ANOS)
-    let eleitorLogado = null;
+    // LOGICA DE SESSAO NO FRONTEND
+    window.onload = function() {
+      const token = localStorage.getItem('vvcc_token');
+      const user = localStorage.getItem('vvcc_user');
+      if (token && user) {
+        exibirApp(user);
+      }
+    };
 
-    function abrirModal() { document.getElementById('auth-modal').style.display = 'flex'; }
-    function fecharModal() { document.getElementById('auth-modal').style.display = 'none'; }
+    function mostrarCadastro() {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+      document.getElementById('form-title').innerText = 'Criar Nova Conta';
+    }
 
-    function realizarLogin() {
-      const nome = document.getElementById('user-nome').value;
-      const nascimento = document.getElementById('user-nascimento').value;
+    function mostrarLogin() {
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('form-title').innerText = 'Acesse sua Conta';
+    }
 
-      if (!nome || !nascimento) {
-        alert("Por favor, preencha todos os campos.");
+    function esqueciSenha() {
+      alert("Para redefinir sua senha, entre em contato com o suporte ou aguarde a integração com o serviço de e-mail.");
+    }
+
+    // VALIDACOES DE CADASTRO E REQUISICAO API
+    async function efetuarCadastro(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('reg-nome').value;
+      const apelido = document.getElementById('reg-apelido').value;
+      const email = document.getElementById('reg-email').value;
+      const emailConf = document.getElementById('reg-email-conf').value;
+      const nascimento = document.getElementById('reg-nascimento').value;
+      const senha = document.getElementById('reg-senha').value;
+      const senhaConf = document.getElementById('reg-senha-conf').value;
+
+      // Validacao de E-mail
+      if (email !== emailConf) {
+        alert("Os e-mails informados não coincidem!");
         return;
       }
 
+      // Validacao de Senha
+      if (senha !== senhaConf) {
+        alert("As senhas informadas não coincidem!");
+        return;
+      }
+
+      const regexSenha = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+      if (!regexSenha.test(senha)) {
+        alert("A senha deve ter pelo menos 8 dígitos, conter no mínimo uma letra maiúscula e um caractere especial!");
+        return;
+      }
+
+      // Validacao de Idade (Mínimo 16 anos)
       const dataNasc = new Date(nascimento);
       const hoje = new Date();
       let idade = hoje.getFullYear() - dataNasc.getFullYear();
@@ -452,197 +311,96 @@
       if (m < 0 || (m === 0 && hoje.getDate() < dataNasc.getDate())) { idade--; }
 
       if (idade < 16) {
-        alert("Acesso negado: É necessário ter no mínimo 16 anos para participar ativamente com cadastro na plataforma.");
+        alert("Acesso negado: É necessário ter pelo menos 16 anos para se cadastrar.");
         return;
       }
 
-      eleitorLogado = { nome, idade };
-      document.getElementById('user-panel').innerHTML = `<span style="font-size: 14px; font-weight:600;">👤 ${nome} (${idade} anos)</span>`;
-      fecharModal();
-    }
+      // Envio para o Backend Django
+      try {
+        const response = await fetch('/api/cadastrar/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: email,
+            email: email,
+            nome: nome,
+            apelido: apelido,
+            data_nascimento: nascimento,
+            password: senha
+          })
+        });
 
-    // INTERAÇÕES
-    function favoritar(id) {
-      if (!eleitorLogado) {
-        alert("Faça login para adicionar parlamentares aos seus favoritos.");
-        abrirModal();
-        return;
-      }
-      alert(`Deputado ${id} salvo com sucesso na sua lista de favoritos!`);
-    }
-
-    function adicionarComentario(e, id) {
-      if (e.key === 'Enter') {
-        if (!eleitorLogado) {
-          alert("Faça login para comentar na página do parlamentar.");
-          abrirModal();
-          return;
+        if (response.ok) {
+          alert("Cadastro realizado com sucesso! Faça login para continuar.");
+          mostrarLogin();
+        } else {
+          const err = await response.json();
+          alert("Erro no cadastro: " + JSON.stringify(err));
         }
-        const texto = e.target.value;
-        if (!texto) return;
-        
-        const list = document.getElementById(`comments-${id}`);
-        const p = document.createElement('p');
-        p.style.margin = "4px 0";
-        p.innerHTML = `<strong>${eleitorLogado.nome}:</strong> ${texto}`;
-        list.appendChild(p);
-        e.target.value = '';
+      } catch (err) {
+        alert("Erro na conexão com o servidor.");
       }
     }
 
-    // BUSCA DE DEPUTADOS DA API
-    let ufAtual = 'PB';
-
-    async function buscarDeputados(uf) {
-      const grid = document.getElementById("deputados-grid");
-      grid.innerHTML = "<p>Buscando parlamentares na API oficial...</p>";
+    async function efetuarLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const senha = document.getElementById('login-senha').value;
 
       try {
-        let res = await fetch(`https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=${uf}&itens=12&ordem=ASC&ordenarPor=nome`);
+        const response = await fetch('/api/login/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: email, password: senha })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('vvcc_token', data.token);
+          localStorage.setItem('vvcc_user', email);
+          exibirApp(email);
+        } else {
+          alert("E-mail ou senha inválidos.");
+        }
+      } catch (err) {
+        alert("Erro ao conectar com o servidor.");
+      }
+    }
+
+    function exibirApp(username) {
+      document.getElementById('auth-container').style.display = 'none';
+      document.getElementById('main-app').style.display = 'block';
+      document.getElementById('user-display').innerText = `Olá, ${username}`;
+      carregarDeputados();
+    }
+
+    function efetuarLogout() {
+      localStorage.removeItem('vvcc_token');
+      localStorage.removeItem('vvcc_user');
+      document.getElementById('main-app').style.display = 'none';
+      document.getElementById('auth-container').style.display = 'flex';
+      mostrarLogin();
+    }
+
+    async function carregarDeputados() {
+      const grid = document.getElementById("deputados-grid");
+      try {
+        let res = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados?siglaUf=PB&itens=12&ordem=ASC&ordenarPor=nome');
         let data = await res.json();
-        let lista = data.dados || [];
-
         grid.innerHTML = "";
-        lista.forEach(dep => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <button class="fav-btn" title="Favoritar" onclick="favoritar(${dep.id})">⭐</button>
-            <div>
-              <img src="${dep.urlFoto}" alt="${dep.nome}" loading="lazy">
-              <h4>${dep.nome}</h4>
-              <span class="partido-badge">${dep.siglaPartido} - ${dep.siglaUf}</span>
-              
-              <div class="links-uteis">
-                <a href="https://www.camara.leg.br/deputados/${dep.id}" target="_blank">📋 Ver Despesas e Gabinete ↗</a>
-                <a href="https://www.camara.leg.br/deputados/${dep.id}/votacoes" target="_blank">🗳️ Histórico de Votações ↗</a>
-              </div>
-            </div>
-
-            <div class="comments-section">
-              <div class="comments-list" id="comments-${dep.id}">
-                <p style="margin:2px 0; color:#94a3b8;"><em>Nenhum comentário ainda.</em></p>
-              </div>
-              <input type="text" class="comment-input" placeholder="Escreva um comentário e pressione Enter..." onkeypress="adicionarComentario(event, ${dep.id})">
+        data.dados.forEach(dep => {
+          grid.innerHTML += `
+            <div class="card">
+              <img src="${dep.urlFoto}" alt="${dep.nome}">
+              <h3>${dep.nome}</h3>
+              <p>${dep.siglaPartido} - ${dep.siglaUf}</p>
             </div>
           `;
-          grid.appendChild(card);
         });
       } catch (err) {
-        grid.innerHTML = "<p>Não foi possível obter os dados da API no momento.</p>";
+        grid.innerHTML = "<p>Erro ao carregar deputados.</p>";
       }
     }
-
-    function trocarEstado(uf) {
-      ufAtual = uf;
-      buscarDeputados(uf);
-    }
-
-    // QUIZ COMPLETO E DESCONTRAÍDO
-    const perguntas = [
-      {
-        titulo: "1. Você abre o aplicativo de entrega e vê a taxa de R$ 12,90.",
-        opcoes: [
-          { texto: "A) 'Tudo bem, pode pedir.'", pontos: 1 },
-          { texto: "B) Procuro outro restaurante com frete grátis.", pontos: 2 },
-          { texto: "C) 'Deixa quieto, vou buscar a pé.'", pontos: 3 },
-          { texto: "D) 'Vou fazer um miojo agora mesmo.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "2. Você encontrou R$ 50 perdidos no bolso do casaco:",
-        opcoes: [
-          { texto: "A) 'Ótimo, vou gastar hoje mesmo!'", pontos: 1 },
-          { texto: "B) 'Vou guardar para uma emergência.'", pontos: 2 },
-          { texto: "C) 'Ótimo, já paga o transporte da semana.'", pontos: 3 },
-          { texto: "D) 'Finalmente vou pagar a pessoa que me emprestou R$ 10.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "3. O grupo de amigos manda: 'Bora sair hoje?'",
-        opcoes: [
-          { texto: "A) 'Bora! Onde vamos?'", pontos: 1 },
-          { texto: "B) 'Quanto mais ou menos vai custar?'", pontos: 2 },
-          { texto: "C) 'Tem como ser num lugar baratinho?'", pontos: 3 },
-          { texto: "D) 'Infelizmente hoje não posso, estou completamente sem verba.'", pontos: 4 }
-        ]
-      },
-      {
-        titulo: "4. Alguém sugere: 'Vamos pedir uma pizza?'",
-        opcoes: [
-          { texto: "A) 'Bora pedir duas logo!'", pontos: 1 },
-          { texto: "B) 'Qual o sabor e quanto dá pra cada?'", pontos: 2 },
-          { texto: "C) 'Se dividirmos em 5 pessoas, eu topo.'", pontos: 3 },
-          { texto: "D) 'Gente, tem pão com ovo em casa.' 🥖", pontos: 4 }
-        ]
-      }
-    ];
-
-    let indicePergunta = 0;
-    let pontosTotais = 0;
-
-    function carregarPergunta() {
-      const q = perguntas[indicePergunta];
-      document.getElementById("pergunta-titulo").innerText = q.titulo;
-      const container = document.getElementById("opcoes-container");
-      container.innerHTML = "";
-
-      q.opcoes.forEach(op => {
-        const btn = document.createElement("button");
-        btn.className = "opcao-btn";
-        btn.innerText = op.texto;
-        btn.onclick = () => responderQuiz(op.pontos);
-        container.appendChild(btn);
-      });
-    }
-
-    function responderQuiz(pontos) {
-      pontosTotais += pontos;
-      indicePergunta++;
-
-      if (indicePergunta < perguntas.length) {
-        carregarPergunta();
-      } else {
-        exibirResultadoQuiz();
-      }
-    }
-
-    function exibirResultadoQuiz() {
-      document.getElementById("quiz-container").style.display = "none";
-      document.getElementById("resultado-container").style.display = "block";
-      
-      let titulo = "";
-      let desc = "";
-
-      if (pontosTotais <= 6) {
-        titulo = "💎 HERDEIRO DO PIX";
-        desc = "Você não sabe quanto as coisas custam porque o orçamento sempre dá conta. Seu maior dilema do dia é decidir se paga no débito ou no crédito.";
-      } else if (pontosTotais <= 10) {
-        titulo = "💳 CLT PREMIUM";
-        desc = "Você trabalha bastante e gosta de se dar mimos, mas quando a fatura do cartão chega, você descobre que o mês foi bem longo.";
-      } else if (pontosTotais <= 13) {
-        titulo = "🧮 CONTADOR DO ROLÊ";
-        desc = "Antes de aceitar qualquer convite, você faz a conta completa: transporte + comida + 10% do garçom. Se passar da meta, prefere ficar em casa.";
-      } else {
-        titulo = "🥖 CEO DO 'TEM EM CASA'";
-        desc = "Você é uma pessoa altamente estratégica. Quando alguém sugere pedir comida, você imediatamente lembra que tem comida pronta na geladeira.";
-      }
-
-      document.getElementById("resultado-titulo").innerText = titulo;
-      document.getElementById("resultado-desc").innerText = desc;
-    }
-
-    function reiniciarQuiz() {
-      indicePergunta = 0;
-      pontosTotais = 0;
-      document.getElementById("quiz-container").style.display = "block";
-      document.getElementById("resultado-container").style.display = "none";
-      carregarPergunta();
-    }
-
-    // INICIALIZAÇÃO
-    carregarPergunta();
-    buscarDeputados(ufAtual);
   </script>
 </body>
 </html>

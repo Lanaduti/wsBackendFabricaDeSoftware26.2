@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Eleitor(AbstractUser):
     nome = models.CharField(max_length=150)
+    apelido = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
     data_nascimento = models.DateField() # Adicionado para checar se possui idade >= 16 anos
 
@@ -13,7 +14,7 @@ class Eleitor(AbstractUser):
     REQUIRED_FIELDS = ['username','nome','data_nascimento']
 
     def __str__(self):
-        return self.nome 
+        return self.apelido if self.apelido else self.nome
      
 class DeputadoFavorito(models.Model):
     deputado_id = models.IntegerField()
