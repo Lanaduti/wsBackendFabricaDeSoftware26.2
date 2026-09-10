@@ -69,3 +69,6 @@ class CriarEleitorView(generics.CreateAPIView):
     queryset = Eleitor.objects.all()
     serializer_class = EleitorSerializer
     permission_classes = [permissions.AllowAny]
+
+def home(request):
+    return render(request, 'index.html')

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
+from app.views import home
 
 from app.views import (
     EleitorViewSet, 
@@ -33,6 +34,8 @@ router.register(r'favoritos', DeputadoFavoritoViewSet, basename='favorito')
 router.register(r'quiz-resultados', ResultadoQuizViewSet, basename='quiz-resultado')
 
 urlpatterns = [
+
+    path('', home, name='home'),
     
     path('admin/', admin.site.urls),
     
