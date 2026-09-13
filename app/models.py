@@ -5,13 +5,17 @@ class Eleitor(AbstractUser):
     nome = models.CharField(max_length=150)
     apelido = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)
-    data_nascimento = models.DateField() # Adicionado para checar se possui idade >= 16 anos
-
-    groups = models.ManyToManyField('auth.Group', related_name='eleitor_set', blank=True)
-    user_permissions = models.ManyToManyField('auth.Permission', related_name='eleitor_permissions_set', blank=True )
+    cpf = models.CharField(max_length=11, unique=True, null=True, blank=True)
+    rg = models.CharField(max_length=20, null=True, blank=True)
+    endereco = models.CharField(max_length=255, null=True, blank=True)
+    data_nascimento = models.DateField(null=True, blank=True)
+    foto_perfil = models.ImageField(upload_to='perfis/', null=True, blank=True)
+    
+    # Campo para armazenar o codigo de recuperacao temporario
+    codigo_recuperacao = models.CharField(max_length=6, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username','nome','data_nascimento']
+    REQUIRED_FIELDS = ['username', 'nome']
 
     def __str__(self):
         return self.apelido if self.apelido else self.nome

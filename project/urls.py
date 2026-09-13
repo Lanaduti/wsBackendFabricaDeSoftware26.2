@@ -17,15 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken.views import obtain_auth_token
-from app.views import home
+from django.conf import settings
+from django.conf.urls.static import static
+from app.views import SolicitacaoCodigoView, RedefinirSenhaView
 
 from app.views import (
+    home,
+    CustomLoginView,
+    CriarEleitorView,
+    CamaraDeputadosView,
+    SenadoView,
+    CandidatosTSEView,
     EleitorViewSet, 
     DeputadoFavoritoViewSet, 
-    ResultadoQuizViewSet, 
-    CamaraDeputadosView,
-    CriarEleitorView
+    ResultadoQuizViewSet
 )
 
 router = DefaultRouter()
@@ -35,15 +40,21 @@ router.register(r'quiz-resultados', ResultadoQuizViewSet, basename='quiz-resulta
 
 urlpatterns = [
 
+    path('admin/', admin.site.urls),
     path('', home, name='home'),
     
-    path('admin/', admin.site.urls),
+    path('api/cadastrar/', CriarEleitorView.as_view(), name='cadastrar'),
+    path('api/login/', CustomLoginView.as_view(), name='login'),
+    
+    path('api/deputados-camara/', CamaraDeputadosView.as_view(), name='deputados_camara'),
+    path('api/senadores/', SenadoView.as_view(), name='senadores'),
+    path('api/candidatos-tse/', CandidatosTSEView.as_view(), name='candidatos_tse'),
     
     path('api/', include(router.urls)),
-    
-    path('api/deputados-camara/', CamaraDeputadosView.as_view(), name='deputados-camara'),
 
-    path('api/cadastrar/', CriarEleitorView.as_view(), name='cadastrar_eleitor'),
-    path('api/login/', obtain_auth_token, name='login_eleitor'),
-
+    path('api/esqueci-senha/', SolicitacaoCodigoView.as_view(), name='esqueci_senha'),
+    path('api/redefinir-senha/', RedefinirSenhaView.as_view(), name='redefinir_senha'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
